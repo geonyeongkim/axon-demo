@@ -1,0 +1,5 @@
+rootProject.name = 'cqrs_demo'
+
+include 'command'
+include 'query'
+include 'common'
