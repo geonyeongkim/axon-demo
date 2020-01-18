@@ -5,11 +5,13 @@ import com.cqrs.common.event.AccountDeleteEvent;
 import com.cqrs.common.event.AccountUpdateEvent;
 import com.cqrs.query.enums.AccountEsField;
 import com.cqrs.query.model.document.AccountEsDocument;
+import com.cqrs.query.query.FindAccountByIdQuery;
 import com.cqrs.query.repository.AccountEsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
@@ -28,6 +30,7 @@ public class AccountEventHandler {
 
     private final AccountEsRepository accountEsRepository;
     private final ElasticsearchTemplate elasticsearchTemplate;
+    private final QueryUpdateEmitter queryUpdateEmitter;
 
     @EventHandler
     public void handle(AccountCreateEvent event) {
@@ -48,6 +51,14 @@ public class AccountEventHandler {
 
         final UpdateQuery updateQuery = makeUpdateQuery(event.getId(), updateMap, AccountEsDocument.class);
         elasticsearchTemplate.update(updateQuery);
+        AccountEsDocument accountEsDocument = accountEsRepository.findById(event.getId()).get();
+        log.info("accountEsDocument => {}", accountEsDocument);
+        queryUpdateEmitter
+                .emit(
+                        FindAccountByIdQuery.class,
+                        query -> true,
+                        accountEsDocument
+                );
     }
 
     @EventHandler

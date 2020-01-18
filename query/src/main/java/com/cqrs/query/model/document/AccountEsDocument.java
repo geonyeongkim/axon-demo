@@ -3,6 +3,7 @@ package com.cqrs.query.model.document;
 import com.cqrs.common.enums.Gender;
 import com.cqrs.common.event.AccountCreateEvent;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Document(indexName = "account", type = "_doc")
 public class AccountEsDocument {
 

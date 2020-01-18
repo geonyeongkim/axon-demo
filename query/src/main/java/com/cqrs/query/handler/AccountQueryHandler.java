@@ -1,6 +1,7 @@
 package com.cqrs.query.handler;
 
 import com.cqrs.query.model.document.AccountEsDocument;
+import com.cqrs.query.query.FindAccountByIdQuery;
 import com.cqrs.query.repository.AccountEsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,8 @@ public class AccountQueryHandler {
     private final AccountEsRepository accountEsRepository;
 
     @QueryHandler
-    public AccountEsDocument handle() {
-        return null;
+    public AccountEsDocument handle(FindAccountByIdQuery query) {
+        log.info("V1 handle => {}", query);
+        return accountEsRepository.findById(query.getId()).orElseThrow();
     }
 }
