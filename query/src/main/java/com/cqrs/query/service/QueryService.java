@@ -6,4 +6,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class QueryService {
+
+    public void searchService(String id) {
+        // TODO: point-to-point query 로직 구현
+    }
 }
