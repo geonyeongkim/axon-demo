@@ -1,4 +1,4 @@
-package com.cqrs.query.listener;
+package com.cqrs.query.handler;
 
 import com.cqrs.common.event.AccountCreateEvent;
 import com.cqrs.common.event.AccountDeleteEvent;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 @ProcessingGroup("accounts")
-public class AccountEventListener {
+public class AccountEventHandler {
 
     private final AccountEsRepository accountEsRepository;
     private final ElasticsearchTemplate elasticsearchTemplate;
