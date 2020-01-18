@@ -1,14 +1,13 @@
-server:
-  port: 8080
+application:
+  name: query-demo
 axon:
-  snapshot:
-    count: 50
   axonserver:
     servers: dev-geon-axonserver-ncl.nfra.io
 spring:
   data:
-    mongodb:
-      host: dev-geon-mongo-ncl.nfra.io
-      port: 27017
-  application:
-    name: query-demo
+    es:
+      host: dev-geon-es001-ncl.nfra.io
+      port: 9300
+      clusterName: msa-study
+server:
+  port: 8080

@@ -1,14 +1,11 @@
-server:
-  port: 9090
+application:
+  name: command-demo
+javamelody:
+  advisor-auto-proxy-creator-enabled: false
 axon:
   snapshot:
     count: 50
   axonserver:
     servers: dev-geon-axonserver-ncl.nfra.io
-spring:
-  data:
-    mongodb:
-      host: dev-geon-mongo-ncl.nfra.io
-      port: 27017
-  application:
-    name: command-demo
+server:
+  port: 9090

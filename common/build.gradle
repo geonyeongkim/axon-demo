@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'org.springframework.data:spring-data-mongodb:2.2.3.RELEASE'
+    implementation 'org.axonframework.extensions.mongo:axon-mongo:4.2'
+}
