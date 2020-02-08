@@ -1,6 +1,7 @@
 package com.cqrs.command.configuration;
 
 import com.cqrs.command.aggregate.AccountAggregate;
+import com.cqrs.command.aggregate.TestAggregate;
 import com.cqrs.common.configuration.AxonConfiguration;
 import org.axonframework.eventsourcing.*;
 import org.axonframework.eventsourcing.eventstore.EventStore;
@@ -32,5 +33,10 @@ public class AccountConfiguration {
     @Bean
     public EventSourcingRepository<AccountAggregate> accountAggregateEventSourcingRepository(EventStore eventStore, SnapshotTriggerDefinition accountSnapshotTriggerDefinition) {
         return EventSourcingRepository.builder(AccountAggregate.class).eventStore(eventStore).snapshotTriggerDefinition(accountSnapshotTriggerDefinition).build();
+    }
+
+    @Bean
+    public EventSourcingRepository<TestAggregate> testAggregateEventSourcingRepository(EventStore eventStore, SnapshotTriggerDefinition accountSnapshotTriggerDefinition) {
+        return EventSourcingRepository.builder(TestAggregate.class).eventStore(eventStore).snapshotTriggerDefinition(accountSnapshotTriggerDefinition).build();
     }
 }

@@ -10,10 +10,12 @@ import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.extensions.mongo.DefaultMongoTemplate;
+import org.axonframework.extensions.mongo.eventhandling.saga.repository.MongoSagaStore;
 import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoEventStorageEngine;
 import org.axonframework.extensions.mongo.eventsourcing.tokenstore.MongoTokenStore;
 import org.axonframework.serialization.Serializer;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,6 +47,14 @@ public class AxonConfiguration implements InitializingBean {
     @Bean
     public TokenStore tokenStore(Serializer serializer, MongoClient mongoClient) {
         return MongoTokenStore.builder().serializer(serializer).mongoTemplate(DefaultMongoTemplate.builder().mongoDatabase((mongoClient)).build()).build();
+    }
+
+    @Bean
+    public MongoSagaStore mongoSagaStore(MongoClient mongoClient, Serializer serializer) {
+        return MongoSagaStore.builder()
+                .mongoTemplate(DefaultMongoTemplate.builder().mongoDatabase(mongoClient).build())
+                .serializer(serializer)
+                .build();
     }
 
     @Override

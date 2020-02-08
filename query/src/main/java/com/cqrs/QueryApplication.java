@@ -1,10 +1,10 @@
-package com.cqrs.query;
+package com.cqrs;
 
+import com.cqrs.command.saga.AccountSagaManager;
 import com.cqrs.common.configuration.AxonConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
                 DataSourceAutoConfiguration.class
         }
 )
-@Import({AxonConfiguration.class})
+@Import({AxonConfiguration.class, AccountSagaManager.class})
 public class QueryApplication {
 
     public static void main(String[] args) {

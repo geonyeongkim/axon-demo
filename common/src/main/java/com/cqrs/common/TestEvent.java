@@ -11,6 +11,6 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 public class TestEvent {
-    private final String id;
+    private final String testId;
 
 }

@@ -31,6 +31,7 @@ public class AccountEventListener {
 
     @EventHandler
     public void handle(AccountCreateEvent event) {
+        log.info("AccountCreateEvent => {}", event);
         final AccountEsDocument accountEsDocument = new AccountEsDocument(event);
         accountEsRepository.save(accountEsDocument);
     }
