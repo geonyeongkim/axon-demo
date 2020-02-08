@@ -27,7 +27,7 @@ public class AccountSagaManager implements InitializingBean {
     @SagaEventHandler(associationProperty = "id")
     protected void on(AccountCreateEvent event) {
         log.info("Command AccountSagaManager AccountCreateEvent => {}", event);
-        SagaLifecycle.associateWith(Gender.MALE.name(), event.getId()+"1");
+        SagaLifecycle.associateWith("testId", event.getId()+"1");
         try {
             commandGateway.sendAndWait(new TestCommand(event.getId()+"1"));
         } catch (Exception e) {
@@ -35,14 +35,12 @@ public class AccountSagaManager implements InitializingBean {
         }
 
     }
-    private static final String test = "testId";
 
     @EndSaga
-    @SagaEventHandler(associationProperty = test)
+    @SagaEventHandler(associationProperty = "testId")
     protected void on(TestEvent testEvent) {
         log.info("Command TestEvent => {}", testEvent);
     }
-
 
     @Override
     public void afterPropertiesSet() throws Exception {

@@ -2,9 +2,15 @@ package com.cqrs.common.configuration;
 
 import com.cqrs.common.datasource.MongoConfig;
 import com.cqrs.common.datasource.MongoDataSource;
+import com.cqrs.common.interceptor.EventLoggingDispatchInterceptor;
+import com.cqrs.common.interceptor.MyEventHandlerInterceptor;
 import com.mongodb.MongoClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.config.Configurer;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.TrackedEventMessage;
+import org.axonframework.eventhandling.TrackingEventProcessorConfiguration;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
 import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
@@ -13,11 +19,14 @@ import org.axonframework.extensions.mongo.DefaultMongoTemplate;
 import org.axonframework.extensions.mongo.eventhandling.saga.repository.MongoSagaStore;
 import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoEventStorageEngine;
 import org.axonframework.extensions.mongo.eventsourcing.tokenstore.MongoTokenStore;
+import org.axonframework.messaging.StreamableMessageSource;
 import org.axonframework.serialization.Serializer;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,10 +42,12 @@ public class AxonConfiguration implements InitializingBean {
 
     @Bean
     public EmbeddedEventStore eventStore(EventStorageEngine storageEngine, org.axonframework.spring.config.AxonConfiguration configuration) {
-        return EmbeddedEventStore.builder()
+        EmbeddedEventStore embeddedEventStore = EmbeddedEventStore.builder()
                 .storageEngine(storageEngine)
                 .messageMonitor(configuration.messageMonitor(EventStore.class, "eventStore"))
                 .build();
+        embeddedEventStore.registerDispatchInterceptor(new EventLoggingDispatchInterceptor());
+        return embeddedEventStore;
     }
 
     @Bean

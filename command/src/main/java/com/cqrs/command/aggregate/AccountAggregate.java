@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.messaging.InterceptorChain;
 import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.modelling.command.CommandHandlerInterceptor;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.util.ArrayList;
@@ -47,6 +49,16 @@ public class AccountAggregate {
     private String telephone;
     private Gender gender;
     private String profileUrl;
+
+    @CommandHandlerInterceptor
+    public void intercept(AccountUpdateCommand command, InterceptorChain interceptorChain) {
+        log.info("intercept => {}", command);
+        try {
+            interceptorChain.proceed();
+        } catch (Exception e) {
+            log.error("e => {}", e);
+        }
+    }
 
     @CommandHandler
     public AccountAggregate(AccountCreateCommand command) {

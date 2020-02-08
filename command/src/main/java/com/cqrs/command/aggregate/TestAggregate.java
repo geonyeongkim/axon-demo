@@ -26,8 +26,7 @@ public class TestAggregate {
     @CommandHandler
     public TestAggregate(TestCommand testCommand) {
         log.info("testCommand => {}", testCommand);
-        throw new RuntimeException("exception!!");
-//        apply(new TestEvent(testCommand.getTestId()));
+        apply(new TestEvent(testCommand.getTestId()));
     }
 
     @EventSourcingHandler
