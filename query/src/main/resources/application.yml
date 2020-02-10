@@ -1,9 +1,9 @@
-application:
-  name: query-demo
 axon:
   axonserver:
     servers: dev-geon-axonserver-ncl.nfra.io
 spring:
+  application:
+    name: query-demo
   data:
     es:
       host: dev-geon-es001-ncl.nfra.io

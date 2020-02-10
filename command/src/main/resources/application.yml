@@ -1,5 +1,6 @@
-application:
-  name: command-demo
+spring:
+  application:
+    name: command-demo
 javamelody:
   advisor-auto-proxy-creator-enabled: false
 axon:
